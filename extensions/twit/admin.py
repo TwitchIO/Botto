@@ -21,7 +21,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core
+from typing import TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    import core
 
 
 async def setup(bot: core.TwitchBot) -> None: ...
