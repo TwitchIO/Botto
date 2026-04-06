@@ -38,6 +38,7 @@ class TwitchConfigT(TypedDict):
 
 class GithubConfigT(TypedDict):
     app_id: str
+    install_id: str
     client_id: str
     client_secret: str
     private_key: str
