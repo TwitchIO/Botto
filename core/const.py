@@ -21,8 +21,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from .bot import BotManager as BotManager
-from .config import CONFIG as CONFIG
-from .const import CONST as CONST
-from .dbot import DiscordBot as DiscordBot
-from .tbot import TwitchBot as TwitchBot
+from typing import Any
+
+
+class _CONSTANTS(type):
+    def __setattr__(self, name: str, value: Any) -> None:
+        raise AttributeError("Constant value cannot be set.")
+
+    def __delattr__(self, name: str) -> None:
+        raise AttributeError("Constant value cannot be deleted.")
+
+
+class CONST(metaclass=_CONSTANTS):
+    twitchio: int = 1478717647813214298
