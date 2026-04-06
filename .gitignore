@@ -211,3 +211,6 @@ config.yaml
 
 # Auto-Generated Tokens
 .tio.tokens.json
+
+# Keys
+keys/*.pem
