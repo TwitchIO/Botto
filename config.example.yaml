@@ -1,0 +1,8 @@
+discord:
+  token: ""
+  prefixes: ["!", "?"]
+twitch:
+  client_id: ""
+  client_secret: ""
+  bot_id: ""
+  prefixes: ["!", "?"]

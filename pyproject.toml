@@ -1,0 +1,89 @@
+[project]
+name = "TwitchIO-Botto"
+authors = [{ name = "TwitchIO" }]
+version = "0.1.0a"
+description = "A bot to manage all things TwitchIO on Discord, Twitch and GitHub."
+readme = "README.md"
+requires-python = ">=3.14"
+license = { file = "LICENSE"}
+dependencies = [
+    "twitchio>=3.2.0,<4",
+    "discord.py>=2.7.1,<3",
+    "pyyaml>=6.0.3",
+]
+
+
+[tool.ruff]
+line-length = 125
+target-version = "py314"
+indent-width = 4
+exclude = ["venv", ".venv", ".venv*"]
+
+[tool.ruff.lint]
+select = [
+    "C4",    # flake8-comprehensions (C4)
+    "E",     # pycodestyle Error (E)
+    "F",     # Pyflakes (F)
+    "G",     # flake8-logging-format (G)
+    "I",     # isort (I)
+    "PTH",   # flake8-use-pathlib (PTH)
+    "RUF",   # Ruff-specific rules (RUF)
+    "SIM",   # flake8-simplify (SIM)
+    "TC",    # flake8-type-checking (TC)
+    "UP",    # pyupgrade (UP)
+    "W",     # pycodestyle Warning (W)
+    "PERF",  # Perflint (PERF)
+    "ANN",   # flake8-annotations (ANN)
+]
+ignore = [
+    "F402",     # import-shadowed-by-loop-var
+    "F403",     # undefined-local-with-import-star
+    "F405",     # undefined-local-with-import-star-usage
+    "PERF203",  # try-except-in-loop
+    "RUF001",   # ambiguous-unicode-character-string
+    "RUF009",   # function-call-in-dataclass-default-argument
+    "SIM105",   # suppressible-exception
+    "UP034",    # extraneous-parentheses
+    "ANN401",   # any-type
+    "PTH123",
+    "E203",     # whitespace-before-punctuation
+    "E501",     # line-too-long
+]
+
+[tool.ruff.lint.isort]
+split-on-trailing-comma = true
+combine-as-imports = true
+lines-after-imports = 2
+
+[tool.ruff.lint.flake8-annotations]
+allow-star-arg-any = true
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "double"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.pyright]
+exclude = [
+    ".venv",
+    "venv",
+    ".venv*",
+    "**/node_modules", 
+    "**/__pycache__", 
+    "**/.*"
+]
+useLibraryCodeForTypes = true
+typeCheckingMode = "strict"
+reportImportCycles = false
+reportPrivateUsage = false
+pythonVersion = "3.14"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.7",
+    "pyright>=1.1.408",
+]
