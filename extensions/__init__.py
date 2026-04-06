@@ -21,7 +21,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from .bot import BotManager as BotManager
-from .config import CONFIG as CONFIG
-from .dbot import DiscordBot as DiscordBot
-from .tbot import TwitchBot as TwitchBot
+import core
+
+
+async def discord_setup(bot: core.DiscordBot) -> None: ...
+
+
+async def twitch_setup(bot: core.TwitchBot) -> None: ...
+
+
+async def setup(bot: core.DiscordBot | core.TwitchBot) -> None:
+    if isinstance(bot, core.DiscordBot):
+        await discord_setup(bot)
+    else:
+        await twitch_setup(bot)
