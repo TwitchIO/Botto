@@ -20,6 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -38,10 +39,27 @@ class InfoCog(commands.Cog):
         self.bot = bot
 
     @app_commands.command()
-    async def examples(self, interaction: discord.Interaction[core.DiscordBot]) -> None:
-        # TODO: Fuzzy matching...
-        msg = "**TwitchIO Examples**: <https://github.com/TwitchIO/TwitchIO/tree/main/examples>"
-        await interaction.response.send_message(msg)
+    @app_commands.describe(example="The specific example to fetch")
+    async def examples(self, interaction: discord.Interaction[core.DiscordBot], example: str | None = None) -> None:
+        """Fetch an example from the TwitchIO Github."""
+        if not example:
+            msg = "**TwitchIO Examples**:\n<https://github.com/TwitchIO/TwitchIO/tree/main/examples>"
+            await interaction.response.send_message(msg)
+            return
+
+        await interaction.response.send_message(f"<{example}>")
+
+    @examples.autocomplete("example")
+    async def example_autocomplete(
+        self, interaction: discord.Interaction[core.DiscordBot], value: str
+    ) -> list[app_commands.Choice[str]]:
+        examples = self.bot.ghc.examples
+
+        if not examples:
+            await self.bot.ghc.refresh_caches()
+
+        choices = [app_commands.Choice(name=e.name, value=e.url) for e in examples if value.lower() in e.name.lower()]
+        return choices
 
 
 async def setup(bot: core.DiscordBot) -> None:
