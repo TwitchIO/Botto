@@ -37,7 +37,8 @@ class DiscordBot(commands.Bot):
         intents = discord.Intents.all()
         super().__init__(command_prefix=CONFIG["discord"]["prefixes"], intents=intents, help_command=None)
 
-    async def setup_hook(self) -> None: ...
+    async def setup_hook(self) -> None:
+        await self.load_extension("extensions")
 
     async def on_ready(self) -> None:
         LOGGER.info("Logged in as: %s", self.user)

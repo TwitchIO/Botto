@@ -21,13 +21,43 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import logging
+import pathlib
+
 import core
 
 
-async def discord_setup(bot: core.DiscordBot) -> None: ...
+LOGGER: logging.Logger = logging.getLogger(__name__)
 
 
-async def twitch_setup(bot: core.TwitchBot) -> None: ...
+async def discord_setup(bot: core.DiscordBot) -> None:
+    ext_path = pathlib.Path("extensions/disco")
+    loaded: list[str] = []
+
+    for ext in ext_path.glob("*.py"):
+        try:
+            await bot.load_extension(f"extensions.disco.{ext.stem}")
+        except Exception as e:
+            LOGGER.error("Failed to load discord extension %s: %s", ext.name, e)
+        else:
+            loaded.append(ext.name)
+
+    LOGGER.info("Successfully loaded discord extensions: %r", loaded)
+
+
+async def twitch_setup(bot: core.TwitchBot) -> None:
+    ext_path = pathlib.Path("extensions/twit")
+    loaded: list[str] = []
+
+    for ext in ext_path.glob("*.py"):
+        try:
+            await bot.load_module(f"extensions.twit.{ext.stem}")
+        except Exception as e:
+            LOGGER.error("Failed to load twitch extension %s: %s", ext.name, e)
+        else:
+            loaded.append(ext.name)
+
+    LOGGER.info("Successfully loaded twitch extensions: %r", loaded)
 
 
 async def setup(bot: core.DiscordBot | core.TwitchBot) -> None:

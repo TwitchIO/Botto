@@ -28,7 +28,7 @@ from twitchio.ext import commands
 from .config import CONFIG
 
 
-LOGGER: logging.Logger = logging.getLogger(__name__)
+LOGGER: logging.Logger = logging.getLogger("TwitchBot")
 
 
 class TwitchBot(commands.AutoBot):
@@ -41,7 +41,8 @@ class TwitchBot(commands.AutoBot):
 
         super().__init__(client_id=client_id, client_secret=client_secret, bot_id=bot_id, prefix=prefixes)
 
-    async def setup_hook(self) -> None: ...
+    async def setup_hook(self) -> None:
+        await self.load_module("extensions")
 
     async def event_ready(self) -> None:
         LOGGER.info("Logged in as: %s", self.user)
