@@ -36,6 +36,14 @@ class TwitchConfigT(TypedDict):
     prefixes: list[str]
 
 
+class GithubConfigT(TypedDict):
+    app_id: str
+    client_id: str
+    client_secret: str
+    private_key: str
+
+
 class ConfigT(TypedDict):
     discord: DiscordConfigT
     twitch: TwitchConfigT
+    github: GithubConfigT
