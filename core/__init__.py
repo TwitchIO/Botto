@@ -25,4 +25,5 @@ from .bot import BotManager as BotManager
 from .config import CONFIG as CONFIG
 from .const import CONST as CONST
 from .dbot import DiscordBot as DiscordBot
+from .github import GitHubClient as GitHubClient
 from .tbot import TwitchBot as TwitchBot

@@ -21,32 +21,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from typing import Any, Self
-
-from .config import CONFIG
-from .dbot import DiscordBot
-from .github import GitHubClient
-from .tbot import TwitchBot
+from typing import Literal, TypedDict
 
 
-class BotManager:
-    discord: DiscordBot
-    twitch: TwitchBot
+class GHJWTPayloadT(TypedDict):
+    iat: int
+    exp: int
+    iss: str
 
-    async def __aenter__(self) -> Self:
-        return self
 
-    async def __aexit__(self, *args: Any, **kwargs: Any) -> None:
-        await self.shutdown()
+class GHTokenRespT(TypedDict):
+    token: str
+    expires_at: str
+    permissions: dict[str, Literal["read"] | Literal["write"]]
+    repository_selection: Literal["all"]
 
-    async def run(self) -> None:
-        async with GitHubClient() as gh:
-            self.discord = DiscordBot(ghc=gh)
-            self.twitch = TwitchBot()
 
-            await self.twitch.login()
-            await self.discord.start(CONFIG["discord"]["token"])
-
-    async def shutdown(self) -> None:
-        await self.twitch.close()
-        await self.discord.close()
+class GHExampleRespT(TypedDict):
+    name: str
+    path: str
+    sha: str
+    size: int
+    url: str
+    html_url: str
+    git_url: str
+    download_url: str | None
+    type: Literal["dir"] | Literal["file"]

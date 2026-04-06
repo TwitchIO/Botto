@@ -22,6 +22,7 @@ SOFTWARE.
 """
 
 import logging
+from typing import TYPE_CHECKING
 
 import discord
 from discord.ext import commands
@@ -29,11 +30,17 @@ from discord.ext import commands
 from .config import CONFIG
 
 
+if TYPE_CHECKING:
+    from .github import GitHubClient
+
+
 LOGGER: logging.Logger = logging.getLogger("DiscordBot")
 
 
 class DiscordBot(commands.Bot):
-    def __init__(self) -> None:
+    def __init__(self, ghc: GitHubClient) -> None:
+        self.ghc = ghc
+
         intents = discord.Intents.all()
         super().__init__(command_prefix=CONFIG["discord"]["prefixes"], intents=intents, help_command=None)
 
