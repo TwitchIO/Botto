@@ -41,8 +41,8 @@ class BotManager:
 
     async def run(self) -> None:
         async with GitHubClient() as gh:
-            self.discord = DiscordBot(ghc=gh)
-            self.twitch = TwitchBot()
+            self.discord = DiscordBot(ghc=gh, manager=self)
+            self.twitch = TwitchBot(manager=self)
 
             await self.twitch.login()
             await self.discord.start(CONFIG["discord"]["token"])

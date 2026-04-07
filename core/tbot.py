@@ -22,23 +22,29 @@ SOFTWARE.
 """
 
 import logging
+from typing import TYPE_CHECKING
 
 from twitchio.ext import commands
 
 from .config import CONFIG
 
 
+if TYPE_CHECKING:
+    from .bot import BotManager
+
+
 LOGGER: logging.Logger = logging.getLogger("TwitchBot")
 
 
 class TwitchBot(commands.AutoBot):
-    def __init__(self) -> None:
+    def __init__(self, *, manager: BotManager) -> None:
+        self.manager = manager
+
         inner = CONFIG["twitch"]
         client_id = inner["client_id"]
         client_secret = inner["client_secret"]
         bot_id = inner["bot_id"]
         prefixes = inner["prefixes"]
-
         super().__init__(client_id=client_id, client_secret=client_secret, bot_id=bot_id, prefix=prefixes)
 
     async def setup_hook(self) -> None:

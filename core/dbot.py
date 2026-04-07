@@ -31,6 +31,7 @@ from .config import CONFIG
 
 
 if TYPE_CHECKING:
+    from .bot import BotManager
     from .github import GitHubClient
 
 
@@ -38,8 +39,9 @@ LOGGER: logging.Logger = logging.getLogger("DiscordBot")
 
 
 class DiscordBot(commands.Bot):
-    def __init__(self, ghc: GitHubClient) -> None:
+    def __init__(self, ghc: GitHubClient, *, manager: BotManager) -> None:
         self.ghc = ghc
+        self.manager = manager
 
         intents = discord.Intents.all()
         super().__init__(command_prefix=CONFIG["discord"]["prefixes"], intents=intents, help_command=None)
