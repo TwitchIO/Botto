@@ -31,6 +31,8 @@ from .config import CONFIG
 
 
 if TYPE_CHECKING:
+    import aiohttp
+
     from .bot import BotManager
     from .github import GitHubClient
 
@@ -39,9 +41,10 @@ LOGGER: logging.Logger = logging.getLogger("DiscordBot")
 
 
 class DiscordBot(commands.Bot):
-    def __init__(self, ghc: GitHubClient, *, manager: BotManager) -> None:
+    def __init__(self, ghc: GitHubClient, *, manager: BotManager, session: aiohttp.ClientSession) -> None:
         self.ghc = ghc
         self.manager = manager
+        self.session = session
 
         intents = discord.Intents.all()
         super().__init__(command_prefix=CONFIG["discord"]["prefixes"], intents=intents, help_command=None)

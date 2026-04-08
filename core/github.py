@@ -25,7 +25,7 @@ import datetime
 import logging
 import pathlib
 import time
-from dataclasses import dataclass
+from types import MappingProxyType
 from typing import TYPE_CHECKING, Any, ClassVar, Self
 
 import aiohttp
@@ -44,12 +44,6 @@ GH_BASE: str = "https://api.github.com"
 API_VER: str = "2026-03-10"
 
 
-@dataclass
-class ExampleData:
-    name: str
-    url: str
-
-
 class GitHubClient:
     session: aiohttp.ClientSession
     JWT_ALG: ClassVar[str] = "RS256"
@@ -57,12 +51,12 @@ class GitHubClient:
 
     def __init__(self) -> None:
         self._token_data: GHTokenRespT | None = None
-        self._example_cache: list[ExampleData] = []
+        self._example_cache: dict[str, str] = {}
 
     @property
-    def examples(self) -> list[ExampleData]:
-        """A copied list of cached examples as the :class:`ExampleData` dataclass."""
-        return list(self._example_cache)
+    def examples(self) -> MappingProxyType[str, str]:
+        """A mapping of example name to url."""
+        return MappingProxyType(self._example_cache)
 
     async def __aenter__(self) -> Self:
         await self.setup()
@@ -89,7 +83,7 @@ class GitHubClient:
         LOGGER.debug("Attempting to refresh %s caches.", repr(self.__class__.__name__))
 
         examples = await self.fetch_examples()
-        self._example_cache = [ExampleData(name=e["name"], url=e["html_url"]) for e in examples]
+        self._example_cache = {e["name"].lower(): e["html_url"] for e in examples}
 
         LOGGER.info("Refreshed caches on %s.", repr(self.__class__.__name__))
 
