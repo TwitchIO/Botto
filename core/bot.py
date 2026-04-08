@@ -23,6 +23,8 @@ SOFTWARE.
 
 from typing import Any, Self
 
+import aiohttp
+
 from .config import CONFIG
 from .dbot import DiscordBot
 from .github import GitHubClient
@@ -40,8 +42,8 @@ class BotManager:
         await self.shutdown()
 
     async def run(self) -> None:
-        async with GitHubClient() as gh:
-            self.discord = DiscordBot(ghc=gh, manager=self)
+        async with GitHubClient() as gh, aiohttp.ClientSession() as session:
+            self.discord = DiscordBot(ghc=gh, manager=self, session=session)
             self.twitch = TwitchBot(manager=self)
 
             await self.twitch.login()
