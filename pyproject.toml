@@ -12,6 +12,7 @@ dependencies = [
     "pyyaml>=6.0.3",
     "pyjwt>=2.12.1",
     "cryptography>=46.0.6",
+    "rapidfuzz>=3.14.5",
 ]
 
 
