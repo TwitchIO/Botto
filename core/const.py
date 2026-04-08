@@ -34,3 +34,4 @@ class _CONSTANTS(type):
 
 class CONST(metaclass=_CONSTANTS):
     twitchio: int = 1478717647813214298
+    tio_yellow: int = 0xF6BA08
