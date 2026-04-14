@@ -70,7 +70,7 @@ class SolvedView(ui.View):
         await interaction.response.edit_message(view=self)
 
         await self.thread.add_tags(discord.Object(id=TAG_ID), reason="Help Post Solved.")
-        await self.thread.edit(locked=True, reason="Help Post Solved")
+        await self.thread.edit(locked=True, archived=True, reason="Help Post Solved")
 
         self.stop()
 
@@ -141,7 +141,7 @@ class HelpChannelCog(commands.Cog):
             return
 
         await ctx.channel.add_tags(discord.Object(id=TAG_ID), reason="Help Post Solved.")
-        await ctx.channel.edit(locked=True, reason="Help Post Solved")
+        await ctx.channel.edit(locked=True, archived=True, reason="Help Post Solved")
 
 
 async def setup(bot: core.DiscordBot) -> None:
