@@ -35,3 +35,9 @@ class _CONSTANTS(type):
 class CONST(metaclass=_CONSTANTS):
     twitchio: int = 1478717647813214298
     tio_yellow: int = 0xF6BA08
+    help_forums: int = 1478721197217812575
+
+    # Roles
+    admin_role: int = 1478717860506374207
+    maint_role: int = 1478764617214984384
+    contributor_role = 1479091582614503587
