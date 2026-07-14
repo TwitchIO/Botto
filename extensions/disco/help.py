@@ -82,7 +82,7 @@ class SolvedView(ui.View):
         if any(r.id in ROLES for r in member.roles):
             return await self.do_solved(interaction)
 
-        if member != self.owner:
+        if member.id != self.owner:
             await interaction.response.send_message("Sorry you do not have permission to use this!", ephemeral=True)
             return
 
@@ -137,7 +137,11 @@ class HelpChannelCog(commands.Cog):
             return
 
         assert isinstance(ctx.author, discord.Member)
-        if ctx.author.id != ctx.channel.owner_id or not any(r.id in ROLES for r in ctx.author.roles):
+
+        is_owner = ctx.author.id == ctx.channel.owner_id
+        has_allowed_role = any(role.id in ROLES for role in ctx.author.roles)
+    
+        if not is_owner and not has_allowed_role:
             return
 
         await ctx.channel.add_tags(discord.Object(id=TAG_ID), reason="Help Post Solved.")
